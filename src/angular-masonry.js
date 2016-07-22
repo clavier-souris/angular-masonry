@@ -16,6 +16,7 @@
 
       this.preserveOrder = false;
       this.loadImages = true;
+      this.timeoutDuration = 30;
 
       this.scheduleMasonryOnce = function scheduleMasonryOnce() {
         var args = arguments;
@@ -45,7 +46,7 @@
             $element.masonry.apply($element, args);
           });
           schedule = [];
-        }, 30);
+        }, self.timeoutDuration);
       };
 
       function defaultLoaded($element) {
@@ -135,7 +136,9 @@
             var loadImages = scope.$eval(attrs.loadImages);
             ctrl.loadImages = loadImages !== false;
             var preserveOrder = scope.$eval(attrs.preserveOrder);
-            ctrl.preserveOrder = (preserveOrder !== false && attrs.preserveOrder !== undefined); 
+            ctrl.preserveOrder = (preserveOrder !== false && attrs.preserveOrder !== undefined);
+            var timeoutDuration = scope.$eval(attrs.timeoutDuration);
+            ctrl.timeoutDuration = (!isNaN(timeoutDuration) && parseInt(timeoutDuration) > 30 ) ? parseInt(timeoutDuration) : 30;
             var reloadOnShow = scope.$eval(attrs.reloadOnShow);
             if (reloadOnShow !== false && attrs.reloadOnShow !== undefined) {
               scope.$watch(function () {
